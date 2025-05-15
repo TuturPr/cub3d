@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: arthur <arthur@student.42.fr>              +#+  +:+       +#+         #
+#    By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/04 17:23:35 by arthur            #+#    #+#              #
-#    Updated: 2025/03/10 16:20:18 by arthur           ###   ########.fr        #
+#    Updated: 2025/05/15 15:15:16 by aperceva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ NAME = cub3d
 INCLUDE = includes
 
 LIBFT = libs/libft
+MLX = libs/MLX42/build
 
 CC = cc
 
@@ -43,7 +44,8 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT) -s all || (echo "$(RED)Error in libft compilation!$(DEF_COLOR)" && exit 1)
-	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT) -lft -o $(NAME) || \
+	@$(MAKE) -C $(MLX) all
+	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT) -lft libmlx42.a -Iinclude -lglfw -o $(NAME) || \
 		(echo "$(RED)Error during linking!$(DEF_COLOR)" && exit 1)
 
 %.o: %.c
@@ -56,6 +58,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT) -s fclean || (echo "$(RED)Error in libft cleaning!$(DEF_COLOR)" && exit 1)
+	@$(MAKE) -C $(MLX) clean
 	@echo "$(GREEN)Full clean successful !$(DEF_COLOR)"
 
 re: fclean all

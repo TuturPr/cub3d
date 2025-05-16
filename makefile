@@ -6,7 +6,7 @@
 #    By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/04 17:23:35 by arthur            #+#    #+#              #
-#    Updated: 2025/05/15 15:15:16 by aperceva         ###   ########.fr        #
+#    Updated: 2025/05/16 16:53:54 by aperceva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ NAME = cub3d
 INCLUDE = includes
 
 LIBFT = libs/libft
-MLX = libs/MLX42/build
+MLX = libs/MLX42
+LIBS = -L $(LIBFT) -lft -Iinclude $(MLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 CC = cc
 
@@ -29,23 +30,24 @@ DEF_COLOR = \033[0m
 
 # Sources
 
-include Sources.mk
-
 SRC_DIR = ./src
 
-SRC = $(SRC_FILES)
+SRC = $(shell find ./src -iname "*.c")
 
 OBJS = $(SRC:.c=.o)
 
 # Fonctions
 
-all: $(NAME)
+all: libmlx $(NAME)
 	@echo "$(GREEN)Compilation successful !$(DEF_COLOR)"
+
+libmlx:
+	@cmake $(MLX) -B $(MLX)/build && make -C $(MLX)/build -j4 || \
+		(echo "$(RED)Error in libmlx compilation!$(DEF_COLOR)" && exit 1)
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT) -s all || (echo "$(RED)Error in libft compilation!$(DEF_COLOR)" && exit 1)
-	@$(MAKE) -C $(MLX) all
-	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT) -lft libmlx42.a -Iinclude -lglfw -o $(NAME) || \
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) || \
 		(echo "$(RED)Error during linking!$(DEF_COLOR)" && exit 1)
 
 %.o: %.c
@@ -57,8 +59,8 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@rm -rf $(MLX)/build
 	@$(MAKE) -C $(LIBFT) -s fclean || (echo "$(RED)Error in libft cleaning!$(DEF_COLOR)" && exit 1)
-	@$(MAKE) -C $(MLX) clean
 	@echo "$(GREEN)Full clean successful !$(DEF_COLOR)"
 
 re: fclean all

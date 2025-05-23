@@ -6,25 +6,54 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/19 16:43:32 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/23 17:59:37 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef CUB3D_H
+# define CUB3D_H
 
-#include "libft.h"
-#include <stdio.h>
-#include "MLX42.h"
-#include <math.h>
+# include "libft.h"
+# include <stdio.h>
+# include "MLX42.h"
+# include <math.h>
 
-typedef struct {
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
-} ColorRGB;
+# define MAPWIDTH 10
+# define MAPHEIGHT 10
+# define SCREENWIDTH 640
+# define SCREENHEIGHT 480
 
-const ColorRGB RGB_Red    = {255, 0, 0};
-const ColorRGB RGB_Green  = {0, 255, 0};
-const ColorRGB RGB_Blue   = {0, 0, 255};
-const ColorRGB RGB_White  = {255, 255, 255};
-const ColorRGB RGB_Yellow = {255, 255, 0};
+typedef struct s_calc_values{
+	double posX;
+	double posY;
+	double dirX;
+	double dirY;
+	double planeX;
+	double planeY;
+	double rayDirX;
+	double rayDirY;
+	double cameraX;
+	double deltaDistX;
+	double deltaDistY;
+	double sideDistX;
+	double sideDistY;
+	double perpWallDist;
+	int lineHeight;
+	int drawStart;
+	int drawEnd;
+	int mapX;
+	int mapY;
+	int stepX;
+	int stepY;
+	int hit;
+	int side;
+} calc_values;
+
+extern int g_map[MAPHEIGHT][MAPWIDTH];
+
+void init_calc_values(calc_values *calc);
+void ray_render_game(calc_values *calc, mlx_image_t* img);
+void ray_calc_side(calc_values *calc);
+void ray_calc_walls(calc_values *calc);
+
+#endif

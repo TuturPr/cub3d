@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/24 14:45:54 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:44:20 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define MAPHEIGHT 24
 # define SCREENWIDTH 640
 # define SCREENHEIGHT 480
+# define SPEED 0.11
+# define R_SPEED 0.11
 
 typedef struct s_calc_values{
 	double posX;
@@ -47,13 +49,20 @@ typedef struct s_calc_values{
 	int stepY;
 	int hit;
 	int side;
-} calc_values;
+} t_calc_values;
+
+typedef struct s_data {
+	mlx_t *mlx;
+	mlx_image_t *img;
+	t_calc_values *calc;
+} t_data;
 
 extern int g_map[MAPHEIGHT][MAPWIDTH];
 
-void init_calc_values(calc_values *calc);
-void ray_render_game(calc_values *calc, mlx_image_t* img);
-void ray_calc_side(calc_values *calc);
-void ray_calc_walls(calc_values *calc);
+bool	init_hook(t_data *data);
+void init_calc_values(t_calc_values *calc);
+void ray_render_game(t_calc_values *calc, mlx_image_t* img);
+void ray_calc_side(t_calc_values *calc);
+void ray_calc_walls(t_calc_values *calc);
 
 #endif

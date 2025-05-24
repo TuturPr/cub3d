@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/24 14:45:04 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:44:03 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern int g_map[MAPHEIGHT][MAPWIDTH];
 
-static void prepare_render(calc_values *calc)
+static void prepare_render(t_calc_values *calc)
 {
 	calc->rayDirX = calc->dirX + calc->planeX * calc->cameraX;
 	calc->rayDirY = calc->dirY + calc->planeY * calc->cameraX;
@@ -31,7 +31,7 @@ static void prepare_render(calc_values *calc)
 	calc->hit = 0;
 }
 
-static void dda(calc_values *calc)
+static void dda(t_calc_values *calc)
 {
 	while (calc->hit == 0)
 	{
@@ -47,12 +47,16 @@ static void dda(calc_values *calc)
          	calc->mapY += calc->stepY;
           	calc->side = 1;
 		}
-		if(g_map[calc->mapY][calc->mapX] > 0) calc->hit = 1;
+		if(g_map[calc->mapY][calc->mapX] != 0) calc->hit = 1;
 	}
 }
 
-static void draw_line(calc_values *calc, mlx_image_t* img, int x)
+static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 {
+	if (calc->drawStart < 0)
+		calc->drawStart = 0;
+    if (calc->drawEnd >= (int)img->height)
+		calc->drawEnd = img->height - 1;
 	int y = calc->drawStart;
 	uint32_t color = 0x00ff00ff; // rose si bug
 
@@ -66,7 +70,7 @@ static void draw_line(calc_values *calc, mlx_image_t* img, int x)
 	}
 }
 
-void ray_render_game(calc_values *calc, mlx_image_t* img)
+void ray_render_game(t_calc_values *calc, mlx_image_t* img)
 {
 	int x;
 

@@ -6,13 +6,13 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:40:06 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/24 14:46:07 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:49:59 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void init_calc_values(calc_values *calc)
+void init_calc_values(t_calc_values *calc)
 {
 	calc->posX = 22;
 	calc->posY = 12;
@@ -22,7 +22,7 @@ void init_calc_values(calc_values *calc)
 	calc->planeY = 0.66;
 }
 
-void ray_calc_side(calc_values *calc)
+void ray_calc_side(t_calc_values *calc)
 {
 	if (calc->rayDirX < 0)
 	{
@@ -46,14 +46,12 @@ void ray_calc_side(calc_values *calc)
 	}
 }
 
-void ray_calc_walls(calc_values *calc)
+void ray_calc_walls(t_calc_values *calc)
 {
-	printf("sideDistX : %f, deltaDistX : %f\n",calc->sideDistX, calc->deltaDistX);
 	if(calc->side == 0)
 		calc->perpWallDist = (calc->sideDistX - calc->deltaDistX);
     else
 		calc->perpWallDist = (calc->sideDistY - calc->deltaDistY);
-	printf("perpWallDist: %f\n", calc->perpWallDist);
 	calc->lineHeight = (int)(SCREENHEIGHT / calc->perpWallDist);
 	calc->drawStart = -calc->lineHeight / 2 + SCREENHEIGHT / 2;
 	if (calc->drawStart < 0) calc->drawStart = 0;

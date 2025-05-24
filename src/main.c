@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:20:03 by arthur            #+#    #+#             */
-/*   Updated: 2025/05/24 14:50:13 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:55:58 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,21 @@ static void ft_error(void)
 
 int main(void)
 {
-	calc_values *calc;
-	calc = ft_calloc(1, sizeof(calc_values));
-	mlx_t* mlx = mlx_init(SCREENHEIGHT, SCREENWIDTH, "cub3d", true);
-	if (!mlx)
+  t_data *data;
+  data = malloc(sizeof(t_data));
+	data->calc = ft_calloc(1, sizeof(t_calc_values));
+	data->mlx = mlx_init(SCREENHEIGHT, SCREENWIDTH, "cub3d", true);
+	if (!data->mlx)
 		ft_error();
-	mlx_image_t* img = mlx_new_image(mlx, 640, 480);
-	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
+	data->img = mlx_new_image(data->mlx, 640, 480);
+	if (!data->img || (mlx_image_to_window(data->mlx, data->img, 0, 0) < 0))
 			ft_error();
-	mlx_set_window_limit(mlx, 640, 480, 640, 480);
-	init_calc_values(calc);
-	ray_render_game(calc, img);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_set_window_limit(data->mlx, 640, 480, 640, 480);
+	init_calc_values(data->calc);
+	ray_render_game(data->calc, data->img);
+  init_hook(data);
+	mlx_loop(data->mlx);
+	mlx_terminate(data->mlx);
 	return (EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:40:06 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/23 18:56:44 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:46:07 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void init_calc_values(calc_values *calc)
 {
-	calc->posX = 5;
-	calc->posY = 6;
+	calc->posX = 22;
+	calc->posY = 12;
 	calc->dirX = -1;
 	calc->dirY = 0;
 	calc->planeX = 0;
@@ -48,10 +48,12 @@ void ray_calc_side(calc_values *calc)
 
 void ray_calc_walls(calc_values *calc)
 {
+	printf("sideDistX : %f, deltaDistX : %f\n",calc->sideDistX, calc->deltaDistX);
 	if(calc->side == 0)
 		calc->perpWallDist = (calc->sideDistX - calc->deltaDistX);
-    else          calc->perpWallDist = (calc->sideDistY - calc->deltaDistY);
-
+    else
+		calc->perpWallDist = (calc->sideDistY - calc->deltaDistY);
+	printf("perpWallDist: %f\n", calc->perpWallDist);
 	calc->lineHeight = (int)(SCREENHEIGHT / calc->perpWallDist);
 	calc->drawStart = -calc->lineHeight / 2 + SCREENHEIGHT / 2;
 	if (calc->drawStart < 0) calc->drawStart = 0;

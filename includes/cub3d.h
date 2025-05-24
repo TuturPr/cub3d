@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/23 17:59:37 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:45:54 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include "MLX42.h"
 # include <math.h>
 
-# define MAPWIDTH 10
-# define MAPHEIGHT 10
+# define MAPWIDTH 24
+# define MAPHEIGHT 24
 # define SCREENWIDTH 640
 # define SCREENHEIGHT 480
 

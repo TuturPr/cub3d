@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/23 18:47:45 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:45:04 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void dda(calc_values *calc)
          	calc->mapY += calc->stepY;
           	calc->side = 1;
 		}
-		if(g_map[calc->mapX][calc->mapY] > 0) calc->hit = 1;
+		if(g_map[calc->mapY][calc->mapX] > 0) calc->hit = 1;
 	}
 }
 
@@ -56,7 +56,7 @@ static void draw_line(calc_values *calc, mlx_image_t* img, int x)
 	int y = calc->drawStart;
 	uint32_t color = 0x00ff00ff; // rose si bug
 
-	if (g_map[calc->mapX][calc->mapY] == 1)
+	if (g_map[calc->mapY][calc->mapX] == 1)
 		color = (calc->side == 0) ? 0xff0000ff : 0x0000ffff; // rouge ou bleu
 
 	while (y < calc->drawEnd)

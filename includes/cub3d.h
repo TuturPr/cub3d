@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/24 15:44:20 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:38:28 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define SCREENWIDTH 640
 # define SCREENHEIGHT 480
 # define SPEED 0.11
-# define R_SPEED 0.11
+# define R_SPEED 0.05
 
 typedef struct s_calc_values{
 	double posX;
@@ -40,6 +40,9 @@ typedef struct s_calc_values{
 	double sideDistX;
 	double sideDistY;
 	double perpWallDist;
+	int offsetY;
+	int mouseX;
+	int mouseY;
 	int lineHeight;
 	int drawStart;
 	int drawEnd;
@@ -55,6 +58,7 @@ typedef struct s_data {
 	mlx_t *mlx;
 	mlx_image_t *img;
 	t_calc_values *calc;
+	mlx_texture_t *otis;
 } t_data;
 
 extern int g_map[MAPHEIGHT][MAPWIDTH];

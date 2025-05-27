@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/24 16:44:03 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:40:19 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void dda(t_calc_values *calc)
          	calc->mapY += calc->stepY;
           	calc->side = 1;
 		}
-		if(g_map[calc->mapY][calc->mapX] != 0) calc->hit = 1;
+		if(g_map[calc->mapX][calc->mapY] != 0) calc->hit = 1;
 	}
 }
 
@@ -57,15 +57,30 @@ static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 		calc->drawStart = 0;
     if (calc->drawEnd >= (int)img->height)
 		calc->drawEnd = img->height - 1;
-	int y = calc->drawStart;
-	uint32_t color = 0x00ff00ff; // rose si bug
+	int y = 0;
+	int offset = -calc->offsetY;
+	uint32_t color = 0x00ff00ff;
 
-	if (g_map[calc->mapY][calc->mapX] == 1)
-		color = (calc->side == 0) ? 0xff0000ff : 0x0000ffff; // rouge ou bleu
+	if (g_map[calc->mapX][calc->mapY] == 1)
+		color = (calc->side == 0) ? 0xff0000ff : 0x0000ffff;
 
-	while (y < calc->drawEnd)
+	while (y < calc->drawStart + offset && y < (int)img->height)
+	{
+		mlx_put_pixel(img, x, y, 0x00ff00ff);
+		y++;
+	}
+	{
+		mlx_put_pixel(img, x, y, 0x00000000);
+		y++;
+	}
+	while (y < calc->drawEnd + offset && y < (int)img->height)
 	{
 		mlx_put_pixel(img, x, y, color);
+		y++;
+	}
+	while (y < (int)img->height + offset && y < SCREENHEIGHT)
+	{
+		mlx_put_pixel(img, x, y, 0x00ff00ff);
 		y++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:40:06 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/24 15:49:59 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:33:08 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void init_calc_values(t_calc_values *calc)
 {
-	calc->posX = 22;
-	calc->posY = 12;
+	calc->posX = 15.5;
+	calc->posY = 6.5;
 	calc->dirX = -1;
 	calc->dirY = 0;
 	calc->planeX = 0;

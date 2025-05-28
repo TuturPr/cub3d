@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/27 18:38:28 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/28 21:26:36 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define R_SPEED 0.05
 
 typedef struct s_calc_values{
+	double wallX;
 	double posX;
 	double posY;
 	double dirX;
@@ -40,6 +41,7 @@ typedef struct s_calc_values{
 	double sideDistX;
 	double sideDistY;
 	double perpWallDist;
+	double tex_x;
 	int offsetY;
 	int mouseX;
 	int mouseY;
@@ -52,6 +54,7 @@ typedef struct s_calc_values{
 	int stepY;
 	int hit;
 	int side;
+	mlx_texture_t *texture;
 } t_calc_values;
 
 typedef struct s_data {
@@ -59,12 +62,13 @@ typedef struct s_data {
 	mlx_image_t *img;
 	t_calc_values *calc;
 	mlx_texture_t *otis;
+	bool m_control;
 } t_data;
 
 extern int g_map[MAPHEIGHT][MAPWIDTH];
 
 bool	init_hook(t_data *data);
-void init_calc_values(t_calc_values *calc);
+void init_calc_values(t_data *data);
 void ray_render_game(t_calc_values *calc, mlx_image_t* img);
 void ray_calc_side(t_calc_values *calc);
 void ray_calc_walls(t_calc_values *calc);

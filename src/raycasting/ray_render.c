@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/27 18:40:19 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/05/28 21:53:11 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,36 +51,54 @@ static void dda(t_calc_values *calc)
 	}
 }
 
+uint32_t	get_texture_color(mlx_texture_t *texture, int pos)
+{
+	uint32_t	color;
+
+	pos *= 4;
+	color = (uint32_t)texture->pixels[pos] << 24;
+	color |= (uint32_t)texture->pixels[pos + 1] << 16;
+	color |= (uint32_t)texture->pixels[pos + 2] << 8;
+	color |= 0xFF;
+	return (color);
+}
+
 static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 {
+	static double	step;
+	static double	texpos;
+	static int		tex_y;
+
+	step = (double)calc->texture->height / (double)calc->lineHeight;
+	texpos = (calc->drawStart - SCREENHEIGHT / 2 + calc->lineHeight / 2) + -calc->offsetY * step;
 	if (calc->drawStart < 0)
 		calc->drawStart = 0;
     if (calc->drawEnd >= (int)img->height)
 		calc->drawEnd = img->height - 1;
 	int y = 0;
-	int offset = -calc->offsetY;
-	uint32_t color = 0x00ff00ff;
+	//uint32_t color = 0x00ff00ff;
 
-	if (g_map[calc->mapX][calc->mapY] == 1)
-		color = (calc->side == 0) ? 0xff0000ff : 0x0000ffff;
+	//if (g_map[calc->mapX][calc->mapY] == 1)
+		//color = (calc->side == 0) ? 0xff0000ff : 0x0000ffff;
 
-	while (y < calc->drawStart + offset && y < (int)img->height)
-	{
-		mlx_put_pixel(img, x, y, 0x00ff00ff);
-		y++;
-	}
+	while (y < calc->drawStart)
 	{
 		mlx_put_pixel(img, x, y, 0x00000000);
 		y++;
 	}
-	while (y < calc->drawEnd + offset && y < (int)img->height)
+	while (y < calc->drawEnd)
 	{
-		mlx_put_pixel(img, x, y, color);
+		tex_y = (int)texpos % calc->texture->height;
+		texpos += step;
+		mlx_put_pixel(img, x, y,
+			get_texture_color(calc->texture, calc->texture->width
+				* tex_y + calc->tex_x));
+		//mlx_put_pixel(img, x, y, color);
 		y++;
 	}
-	while (y < (int)img->height + offset && y < SCREENHEIGHT)
+	while (y < (int)img->height)
 	{
-		mlx_put_pixel(img, x, y, 0x00ff00ff);
+		mlx_put_pixel(img, x, y, 0xffffffff);
 		y++;
 	}
 }

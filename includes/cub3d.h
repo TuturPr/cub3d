@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/28 21:26:36 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:35:00 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define MAPHEIGHT 24
 # define SCREENWIDTH 640
 # define SCREENHEIGHT 480
+# define TEXWIDTH 64
+# define TEXHEIGHT 64
 # define SPEED 0.11
 # define R_SPEED 0.05
 
@@ -54,7 +56,7 @@ typedef struct s_calc_values{
 	int stepY;
 	int hit;
 	int side;
-	mlx_texture_t *texture;
+	mlx_texture_t *texture[2];
 } t_calc_values;
 
 typedef struct s_data {

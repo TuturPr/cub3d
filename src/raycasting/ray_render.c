@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/05/28 21:53:11 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:40:35 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,43 +65,41 @@ uint32_t	get_texture_color(mlx_texture_t *texture, int pos)
 
 static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 {
-	static double	step;
-	static double	texpos;
-	static int		tex_y;
+	double	step;
+	double	texpos;
+	int		tex_y;
+	int offset;
+	offset = -calc->offsetY;
+	step = TEXHEIGHT / (double)calc->lineHeight;
+	texpos = (calc->drawStart - SCREENHEIGHT / 2 + calc->lineHeight / 2 - offset) * step;
 
-	step = (double)calc->texture->height / (double)calc->lineHeight;
-	texpos = (calc->drawStart - SCREENHEIGHT / 2 + calc->lineHeight / 2) + -calc->offsetY * step;
+
 	if (calc->drawStart < 0)
 		calc->drawStart = 0;
-    if (calc->drawEnd >= (int)img->height)
+	if (calc->drawEnd >= (int)img->height)
 		calc->drawEnd = img->height - 1;
-	int y = 0;
-	//uint32_t color = 0x00ff00ff;
 
-	//if (g_map[calc->mapX][calc->mapY] == 1)
-		//color = (calc->side == 0) ? 0xff0000ff : 0x0000ffff;
-
-	while (y < calc->drawStart)
+	for (int y = 0; y < calc->drawStart; y++)
+		mlx_put_pixel(img, x, y, 0x000000cc);
+	for (int y = calc->drawStart; y < calc->drawEnd; y++)
 	{
-		mlx_put_pixel(img, x, y, 0x00000000);
-		y++;
-	}
-	while (y < calc->drawEnd)
-	{
-		tex_y = (int)texpos % calc->texture->height;
+		tex_y = (int)texpos % TEXHEIGHT;
+		if (tex_y < 0)
+			tex_y += TEXHEIGHT;
 		texpos += step;
-		mlx_put_pixel(img, x, y,
-			get_texture_color(calc->texture, calc->texture->width
-				* tex_y + calc->tex_x));
-		//mlx_put_pixel(img, x, y, color);
-		y++;
+		if (calc->side == 0)
+			mlx_put_pixel(img, x, y,
+				get_texture_color(calc->texture[1],
+				TEXWIDTH * tex_y + calc->tex_x));
+		else
+			mlx_put_pixel(img, x, y,
+				get_texture_color(calc->texture[0],
+				TEXWIDTH * tex_y + calc->tex_x));
 	}
-	while (y < (int)img->height)
-	{
-		mlx_put_pixel(img, x, y, 0xffffffff);
-		y++;
-	}
+	for (int y = calc->drawEnd; y < (int)img->height; y++)
+		mlx_put_pixel(img, x, y, 0xffffffaa);
 }
+
 
 void ray_render_game(t_calc_values *calc, mlx_image_t* img)
 {

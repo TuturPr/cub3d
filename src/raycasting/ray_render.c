@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/09 16:40:35 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:24:23 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,19 @@ static void dda(t_calc_values *calc)
 		{
 			calc->sideDistX += calc->deltaDistX;
           	calc->mapX += calc->stepX;
-          	calc->side = 0;
+          	if (calc->stepX < 0)
+				calc->side = 0; // X side
+			else
+				calc->side = 2; // Y side
 		}
 		else
 		{
 			calc->sideDistY += calc->deltaDistY;
          	calc->mapY += calc->stepY;
-          	calc->side = 1;
+          	if (calc->stepY < 0)
+				calc->side = 1; // Y side
+			else
+				calc->side = 3; // X side
 		}
 		if(g_map[calc->mapX][calc->mapY] != 0) calc->hit = 1;
 	}
@@ -87,14 +93,9 @@ static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 		if (tex_y < 0)
 			tex_y += TEXHEIGHT;
 		texpos += step;
-		if (calc->side == 0)
-			mlx_put_pixel(img, x, y,
-				get_texture_color(calc->texture[1],
-				TEXWIDTH * tex_y + calc->tex_x));
-		else
-			mlx_put_pixel(img, x, y,
-				get_texture_color(calc->texture[0],
-				TEXWIDTH * tex_y + calc->tex_x));
+		mlx_put_pixel(img, x, y,
+			get_texture_color(calc->texture[calc->side],
+			TEXWIDTH * tex_y + calc->tex_x));
 	}
 	for (int y = calc->drawEnd; y < (int)img->height; y++)
 		mlx_put_pixel(img, x, y, 0xffffffaa);

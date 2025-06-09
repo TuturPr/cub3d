@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/09 16:35:00 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:29:05 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define TEXWIDTH 64
 # define TEXHEIGHT 64
 # define SPEED 0.11
-# define R_SPEED 0.05
+# define R_SPEED 0.04
 
 typedef struct s_calc_values{
 	double wallX;
@@ -56,7 +56,7 @@ typedef struct s_calc_values{
 	int stepY;
 	int hit;
 	int side;
-	mlx_texture_t *texture[2];
+	mlx_texture_t *texture[4];
 } t_calc_values;
 
 typedef struct s_data {

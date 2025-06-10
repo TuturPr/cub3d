@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:59:30 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/09 17:21:35 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:01:25 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,9 +184,13 @@ static void	_key_hook(void *param)
 		if (data->calc->mouseX != SCREENWIDTH / 2)
 			move |= mouse_rotate(data, data->calc->mouseX - SCREENWIDTH / 2);
 		if (data->calc->mouseY != SCREENHEIGHT / 2)
-			data->calc->offsetY = data->calc->mouseY - SCREENHEIGHT / 2;
+			data->calc->offsetY += data->calc->mouseY - SCREENHEIGHT / 2;
+		if (data->calc->offsetY < -SCREENHEIGHT)
+			data->calc->offsetY = -SCREENHEIGHT;
+		else if (data->calc->offsetY > SCREENHEIGHT)
+			data->calc->offsetY = SCREENHEIGHT;
 	}
-	mlx_set_mouse_pos(data->mlx, SCREENWIDTH / 2, data->calc->mouseY);
+	mlx_set_mouse_pos(data->mlx, SCREENWIDTH / 2, SCREENHEIGHT / 2);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(data->mlx);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_T))

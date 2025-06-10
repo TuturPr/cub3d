@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/09 17:24:23 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:29:11 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 		calc->drawStart = 0;
 	if (calc->drawEnd >= (int)img->height)
 		calc->drawEnd = img->height - 1;
-
 	for (int y = 0; y < calc->drawStart; y++)
-		mlx_put_pixel(img, x, y, 0x000000cc);
+		if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
+			mlx_put_pixel(img, x, y, 0x000000cc);
 	for (int y = calc->drawStart; y < calc->drawEnd; y++)
 	{
 		tex_y = (int)texpos % TEXHEIGHT;
@@ -98,9 +98,9 @@ static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 			TEXWIDTH * tex_y + calc->tex_x));
 	}
 	for (int y = calc->drawEnd; y < (int)img->height; y++)
-		mlx_put_pixel(img, x, y, 0xffffffaa);
+		if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
+			mlx_put_pixel(img, x, y, 0xffffffaa);
 }
-
 
 void ray_render_game(t_calc_values *calc, mlx_image_t* img)
 {

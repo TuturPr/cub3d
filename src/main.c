@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:20:03 by arthur            #+#    #+#             */
-/*   Updated: 2025/06/09 17:16:25 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:03:24 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int main(void)
 			ft_error();
 	mlx_set_window_limit(data->mlx, 640, 480, 640, 480);
   mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
+  mlx_set_mouse_pos(data->mlx, SCREENWIDTH / 2, SCREENHEIGHT / 2);
 	init_calc_values(data);
 	ray_render_game(data->calc, data->img);
   init_hook(data);

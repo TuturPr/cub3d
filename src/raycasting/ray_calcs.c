@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:40:06 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/09 17:17:51 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:03:17 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void init_calc_values(t_data *data)
 	calc->planeY = 0.66;
 	calc->mouseY = SCREENHEIGHT / 2;
 	data->m_control = false;
-	mlx_set_mouse_pos(data->mlx, SCREENWIDTH / 2, SCREENWIDTH / 2);
 	calc->texture[3] = mlx_load_png("textures/eagle.png");
 	calc->texture[2] = mlx_load_png("textures/bluestone.png");
 	calc->texture[1] = mlx_load_png("textures/greystone.png");

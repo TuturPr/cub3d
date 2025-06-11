@@ -6,13 +6,11 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/10 15:29:11 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:42:40 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-extern int g_map[MAPHEIGHT][MAPWIDTH];
 
 static void prepare_render(t_calc_values *calc)
 {
@@ -53,7 +51,7 @@ static void dda(t_calc_values *calc)
 			else
 				calc->side = 3; // X side
 		}
-		if(g_map[calc->mapX][calc->mapY] != 0) calc->hit = 1;
+		if(calc->map[calc->mapX][calc->mapY] == '1') calc->hit = 1;
 	}
 }
 
@@ -86,7 +84,7 @@ static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 		calc->drawEnd = img->height - 1;
 	for (int y = 0; y < calc->drawStart; y++)
 		if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
-			mlx_put_pixel(img, x, y, 0x000000cc);
+			mlx_put_pixel(img, x, y, calc->c_color);
 	for (int y = calc->drawStart; y < calc->drawEnd; y++)
 	{
 		tex_y = (int)texpos % TEXHEIGHT;
@@ -99,7 +97,7 @@ static void draw_line(t_calc_values *calc, mlx_image_t* img, int x)
 	}
 	for (int y = calc->drawEnd; y < (int)img->height; y++)
 		if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
-			mlx_put_pixel(img, x, y, 0xffffffaa);
+			mlx_put_pixel(img, x, y, calc->f_color);
 }
 
 void ray_render_game(t_calc_values *calc, mlx_image_t* img)

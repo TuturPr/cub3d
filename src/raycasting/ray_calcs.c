@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:40:06 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/10 16:03:17 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:20:08 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,11 @@ void init_calc_values(t_data *data)
 	t_calc_values *calc;
 
 	calc = data->calc;
-	calc->posX = 15.5;
-	calc->posY = 6.5;
-	calc->dirX = -1;
-	calc->dirY = 0;
-	calc->planeX = 0;
-	calc->planeY = 0.66;
+	calc->posX = -1;
+	calc->posY = -1;
 	calc->mouseY = SCREENHEIGHT / 2;
-	data->m_control = false;
-	calc->texture[3] = mlx_load_png("textures/eagle.png");
-	calc->texture[2] = mlx_load_png("textures/bluestone.png");
-	calc->texture[1] = mlx_load_png("textures/greystone.png");
-	calc->texture[0] = mlx_load_png("textures/redbrick.png");
+	data->calc->f_color = 0xFFFFFFFF;
+  	data->calc->c_color = 0xFF000000;
 }
 
 void ray_calc_side(t_calc_values *calc)

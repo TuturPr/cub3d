@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:59:30 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 14:49:32 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:14:27 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ void	_key_hook(void *param)
 
 	move = false;
 	data = param;
-	mlx_get_mouse_pos(data->mlx, &data->calc->mouseX, &data->calc->mouseY);
-	if (data->calc->mouseX != SCREENWIDTH / 2
-		|| data->calc->mouseY != SCREENHEIGHT / 2)
+	mlx_get_mouse_pos(data->mlx, &data->calc->mousex, &data->calc->mousey);
+	if (data->calc->mousex != SCREENWIDTH / 2
+		|| data->calc->mousey != SCREENHEIGHT / 2)
 	{
-		if (data->calc->mouseX != SCREENWIDTH / 2)
-			move |= mouse_rotate(data, data->calc->mouseX - SCREENWIDTH / 2);
-		if (data->calc->mouseY != SCREENHEIGHT / 2)
-			data->calc->offsetY += data->calc->mouseY - SCREENHEIGHT / 2;
-		if (data->calc->offsetY < -SCREENHEIGHT)
-			data->calc->offsetY = -SCREENHEIGHT;
-		else if (data->calc->offsetY > SCREENHEIGHT)
-			data->calc->offsetY = SCREENHEIGHT;
+		if (data->calc->mousex != SCREENWIDTH / 2)
+			move |= mouse_rotate(data, data->calc->mousex - SCREENWIDTH / 2);
+		if (data->calc->mousey != SCREENHEIGHT / 2)
+			data->calc->offsety += data->calc->mousey - SCREENHEIGHT / 2;
+		if (data->calc->offsety < -SCREENHEIGHT)
+			data->calc->offsety = -SCREENHEIGHT;
+		else if (data->calc->offsety > SCREENHEIGHT)
+			data->calc->offsety = SCREENHEIGHT;
 	}
 	mlx_set_mouse_pos(data->mlx, SCREENWIDTH / 2, SCREENHEIGHT / 2);
 	handle_key(data);

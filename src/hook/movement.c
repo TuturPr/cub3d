@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:43:38 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 14:52:53 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:10:52 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ static bool	front_move(t_data *data)
 
 	calc = data->calc;
 	move = false;
-	if (data->calc->map[(int)(calc->posX + calc->dirX * SPEED)] \
-		[(int)calc->posY] != '1')
+	if (data->calc->map[(int)(calc->posx + calc->dirx * SPEED)] \
+		[(int)calc->posy] != '1')
 	{
-		calc->posX += calc->dirX * SPEED;
+		calc->posx += calc->dirx * SPEED;
 		move = true;
 	}
-	if (data->calc->map[(int)calc->posX] \
-		[(int)(calc->posY + calc->dirY * SPEED)] != '1')
+	if (data->calc->map[(int)calc->posx] \
+		[(int)(calc->posy + calc->diry * SPEED)] != '1')
 	{
-		calc->posY += calc->dirY * SPEED;
+		calc->posy += calc->diry * SPEED;
 		move = true;
 	}
 	return (move);
@@ -41,16 +41,16 @@ static bool	back_move(t_data *data)
 
 	calc = data->calc;
 	move = false;
-	if (data->calc->map[(int)(calc->posX - calc->dirX * SPEED)] \
-		[(int)calc->posY] != '1')
+	if (data->calc->map[(int)(calc->posx - calc->dirx * SPEED)] \
+		[(int)calc->posy] != '1')
 	{
-		calc->posX -= calc->dirX * SPEED;
+		calc->posx -= calc->dirx * SPEED;
 		move = true;
 	}
-	if (data->calc->map[(int)calc->posX] \
-		[(int)(calc->posY - calc->dirY * SPEED)] != '1')
+	if (data->calc->map[(int)calc->posx] \
+		[(int)(calc->posy - calc->diry * SPEED)] != '1')
 	{
-		calc->posY -= calc->dirY * SPEED;
+		calc->posy -= calc->diry * SPEED;
 		move = true;
 	}
 	return (move);
@@ -63,16 +63,16 @@ static bool	left_move(t_data *data)
 
 	calc = data->calc;
 	move = false;
-	if (data->calc->map[(int)(calc->posX - calc->dirY * SPEED)] \
-		[(int)calc->posY] != '1')
+	if (data->calc->map[(int)(calc->posx - calc->diry * SPEED)] \
+		[(int)calc->posy] != '1')
 	{
-		calc->posX -= calc->dirY * SPEED;
+		calc->posx -= calc->diry * SPEED;
 		move = true;
 	}
-	if (data->calc->map[(int)calc->posX] \
-		[(int)(calc->posY + calc->dirX * SPEED)] != '1')
+	if (data->calc->map[(int)calc->posx] \
+		[(int)(calc->posy + calc->dirx * SPEED)] != '1')
 	{
-		calc->posY += calc->dirX * SPEED;
+		calc->posy += calc->dirx * SPEED;
 		move = true;
 	}
 	return (move);
@@ -85,16 +85,16 @@ static bool	right_move(t_data *data)
 
 	calc = data->calc;
 	move = false;
-	if (data->calc->map[(int)(calc->posX + calc->dirY * SPEED)] \
-		[(int)calc->posY] != '1')
+	if (data->calc->map[(int)(calc->posx + calc->diry * SPEED)] \
+		[(int)calc->posy] != '1')
 	{
-		calc->posX += calc->dirY * SPEED;
+		calc->posx += calc->diry * SPEED;
 		move = true;
 	}
-	if (data->calc->map[(int)calc->posX] \
-		[(int)(calc->posY - calc->dirX * SPEED)] != '1')
+	if (data->calc->map[(int)calc->posx] \
+		[(int)(calc->posy - calc->dirx * SPEED)] != '1')
 	{
-		calc->posY -= calc->dirX * SPEED;
+		calc->posy -= calc->dirx * SPEED;
 		move = true;
 	}
 	return (move);

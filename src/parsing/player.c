@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:05:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 13:25:14 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:15:42 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,45 +20,45 @@
 
 static void	north(t_data *data)
 {
-	data->calc->dirX = -1;
-	data->calc->dirY = 0;
-	data->calc->planeX = 0;
-	data->calc->planeY = 0.66;
+	data->calc->dirx = -1;
+	data->calc->diry = 0;
+	data->calc->planex = 0;
+	data->calc->planey = 0.66;
 }
 
 static void	east(t_data *data)
 {
-	data->calc->dirX = 0;
-	data->calc->dirY = 1;
-	data->calc->planeX = 0.66;
-	data->calc->planeY = 0;
+	data->calc->dirx = 0;
+	data->calc->diry = 1;
+	data->calc->planex = 0.66;
+	data->calc->planey = 0;
 }
 
 static void	south(t_data *data)
 {
-	data->calc->dirX = 1;
-	data->calc->dirY = 0;
-	data->calc->planeX = 0;
-	data->calc->planeY = -0.66;
+	data->calc->dirx = 1;
+	data->calc->diry = 0;
+	data->calc->planex = 0;
+	data->calc->planey = -0.66;
 }
 
 static void	west(t_data *data)
 {
-	data->calc->dirX = 0;
-	data->calc->dirY = -1;
-	data->calc->planeX = -0.66;
-	data->calc->planeY = 0;
+	data->calc->dirx = 0;
+	data->calc->diry = -1;
+	data->calc->planex = -0.66;
+	data->calc->planey = 0;
 }
 
 void	get_player_dir(t_data *data)
 {
-	if (data->calc->playerDir == 'N')
+	if (data->calc->playerdir == 'N')
 		north(data);
-	else if (data->calc->playerDir == 'E')
+	else if (data->calc->playerdir == 'E')
 		east(data);
-	else if (data->calc->playerDir == 'S')
+	else if (data->calc->playerdir == 'S')
 		south(data);
-	else if (data->calc->playerDir == 'W')
+	else if (data->calc->playerdir == 'W')
 		west(data);
 	else
 	{

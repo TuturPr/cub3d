@@ -6,7 +6,7 @@
 #    By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/04 17:23:35 by arthur            #+#    #+#              #
-#    Updated: 2025/05/16 16:53:54 by aperceva         ###   ########.fr        #
+#    Updated: 2025/06/12 16:22:08 by aperceva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ fclean: clean
 re: fclean all
 
 norminette:
-	@norminette $(SRC_DIR) $(INCLUDE) | grep -Ev '^Notice|OK!$$'	\
+	@norminette $(SRC_DIR)| grep -Ev '^Notice|OK!$$'	\
 	&& bash -c 'echo -e "\033[1;31mNorminette KO!"'						\
 	|| bash -c 'echo -e "\033[1;32mNorminette OK!"'
 

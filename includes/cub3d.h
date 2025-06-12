@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 15:05:51 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:15:42 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,70 +26,79 @@
 # define TEXHEIGHT 64
 # define SPEED 0.11
 # define R_SPEED 0.05
+# define INVALID_F "Warning : Invalid F color, using default."
+# define INVALID_C "Warning : Invalid C color, using default."
 
-typedef struct s_calc_values{
-	double wallX;
-	double posX;
-	double posY;
-	double dirX;
-	double dirY;
-	double planeX;
-	double planeY;
-	double rayDirX;
-	double rayDirY;
-	double cameraX;
-	double deltaDistX;
-	double deltaDistY;
-	double sideDistX;
-	double sideDistY;
-	double perpWallDist;
-	double tex_x;
-	double	step;
-	double	texpos;
-	double	sensitivity;
-	double	rotspeed;
-	char **map;
-	int		tex_y;
-	int offsetY;
-	int mouseX;
-	int mouseY;
-	int lineHeight;
-	int drawStart;
-	int drawEnd;
-	int mapX;
-	int mapY;
-	int stepX;
-	int stepY;
-	int hit;
-	int side;
-	char playerDir;
-	mlx_texture_t *texture[4];
-	uint32_t f_color;
-	uint32_t c_color;
-} t_calc_values;
+typedef struct s_calc_values
+{
+	double			wallx;
+	double			posx;
+	double			posy;
+	double			dirx;
+	double			diry;
+	double			planex;
+	double			planey;
+	double			raydirx;
+	double			raydiry;
+	double			camerax;
+	double			deltadistx;
+	double			deltadisty;
+	double			sidedistx;
+	double			sidedisty;
+	double			perpwalldist;
+	double			tex_x;
+	double			step;
+	double			texpos;
+	double			sensitivity;
+	double			rotspeed;
+	char			**map;
+	int				tex_y;
+	int				offsety;
+	int				mousex;
+	int				mousey;
+	int				lineheight;
+	int				drawstart;
+	int				drawend;
+	int				mapx;
+	int				mapy;
+	int				stepx;
+	int				stepy;
+	int				hit;
+	int				side;
+	char			playerdir;
+	mlx_texture_t	*texture[4];
+	uint32_t		f_color;
+	uint32_t		c_color;
+}	t_calc_values;
 
-typedef struct s_data {
-	mlx_t *mlx;
-	mlx_image_t *img;
-	t_calc_values *calc;
-	bool map_valid;
-} t_data;
+typedef struct s_data
+{
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_calc_values	*calc;
+	bool			map_valid;
+}	t_data;
 
-void init_values(t_data *data);
-void ray_render_game(t_data *data, mlx_image_t* img);
-void ray_calc_side(t_calc_values *calc);
-void ray_calc_walls(t_calc_values *calc);
-void parse_map(char *path, t_data *data);
-bool	parsing(t_data *game, char *path);
-void	get_player_dir(t_data *data);
-void	exit_error(t_data *data, char *message);
-void    free_split(char **split);
-void 	free_textures(t_data *game);
-uint32_t	get_texture_color(mlx_texture_t *texture, int pos);
-void	_key_hook(void *param);
-bool	move_key(t_data *data);
-bool	rotate_key(t_data *data);
-bool	mouse_rotate(t_data *data, int mouseDeltaX);
-
+void			init_values(t_data *data);
+void			ray_render_game(t_data *data, mlx_image_t *img);
+void			ray_calc_side(t_calc_values *calc);
+void			ray_calc_walls(t_calc_values *calc);
+void			parse_map(char *path, t_data *data);
+bool			parsing(t_data *game, char *path);
+void			get_player_dir(t_data *data);
+void			exit_error(t_data *data, char *message);
+void			free_split(char **split);
+void			free_textures(t_data *game);
+uint32_t		get_texture_color(mlx_texture_t *texture, int pos);
+bool			move_key(t_data *data);
+void			_key_hook(void *param);
+bool			rotate_key(t_data *data);
+bool			mouse_rotate(t_data *data, int mouseDeltaX);
+bool			check_path(t_data *game);
+void			flood_fill(t_data *game, int x, int y, char **map);
+unsigned int	parse_rgb_line(const char *line);
+char			**map_open(t_data *data, char *path, char **map_data);
+bool			check_empty_lines(char **map_data, t_data *game);
+bool			is_ber_file(const char *argv);
 
 #endif

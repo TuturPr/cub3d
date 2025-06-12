@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:55:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 14:43:00 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:15:31 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static void	prepare_render(t_calc_values *calc)
 {
-	calc->rayDirX = calc->dirX + calc->planeX * calc->cameraX;
-	calc->rayDirY = calc->dirY + calc->planeY * calc->cameraX;
-	calc->mapX = (int)calc->posX;
-	calc->mapY = (int)calc->posY;
-	if (calc->rayDirX == 0)
-		calc->deltaDistX = 1e30;
+	calc->raydirx = calc->dirx + calc->planex * calc->camerax;
+	calc->raydiry = calc->diry + calc->planey * calc->camerax;
+	calc->mapx = (int)calc->posx;
+	calc->mapy = (int)calc->posy;
+	if (calc->raydirx == 0)
+		calc->deltadistx = 1e30;
 	else
-		calc->deltaDistX = fabs(1 / calc->rayDirX);
-	if (calc->rayDirY == 0)
-		calc->deltaDistY = 1e30;
+		calc->deltadistx = fabs(1 / calc->raydirx);
+	if (calc->raydiry == 0)
+		calc->deltadisty = 1e30;
 	else
-		calc->deltaDistY = fabs(1 / calc->rayDirY);
+		calc->deltadisty = fabs(1 / calc->raydiry);
 	calc->hit = 0;
 }
 
@@ -33,25 +33,25 @@ static void	dda(t_calc_values *calc)
 {
 	while (calc->hit == 0)
 	{
-		if (calc->sideDistX < calc->sideDistY)
+		if (calc->sidedistx < calc->sidedisty)
 		{
-			calc->sideDistX += calc->deltaDistX;
-			calc->mapX += calc->stepX;
-			if (calc->stepX < 0)
+			calc->sidedistx += calc->deltadistx;
+			calc->mapx += calc->stepx;
+			if (calc->stepx < 0)
 				calc->side = 0;
 			else
 				calc->side = 2;
 		}
 		else
 		{
-			calc->sideDistY += calc->deltaDistY;
-			calc->mapY += calc->stepY;
-			if (calc->stepY < 0)
+			calc->sidedisty += calc->deltadisty;
+			calc->mapy += calc->stepy;
+			if (calc->stepy < 0)
 				calc->side = 1;
 			else
 				calc->side = 3;
 		}
-		if (calc->map[calc->mapX][calc->mapY] == '1')
+		if (calc->map[calc->mapx][calc->mapy] == '1')
 			calc->hit = 1;
 	}
 }
@@ -62,14 +62,14 @@ static void	init(t_data *data, mlx_image_t *img)
 	t_calc_values	*calc;
 
 	calc = data->calc;
-	offset = -calc->offsetY;
-	calc->step = TEXHEIGHT / (double)calc->lineHeight;
-	calc->texpos = (calc->drawStart - SCREENHEIGHT / 2 \
-		+ calc->lineHeight / 2 - offset) * calc->step;
-	if (calc->drawStart < 0)
-		calc->drawStart = 0;
-	if (calc->drawEnd >= (int)img->height)
-		calc->drawEnd = img->height - 1;
+	offset = -calc->offsety;
+	calc->step = TEXHEIGHT / (double)calc->lineheight;
+	calc->texpos = (calc->drawstart - SCREENHEIGHT / 2 \
+		+ calc->lineheight / 2 - offset) * calc->step;
+	if (calc->drawstart < 0)
+		calc->drawstart = 0;
+	if (calc->drawend >= (int)img->height)
+		calc->drawend = img->height - 1;
 }
 
 static void	draw_line(t_data *data, mlx_image_t *img, int x)
@@ -80,11 +80,11 @@ static void	draw_line(t_data *data, mlx_image_t *img, int x)
 	calc = data->calc;
 	init(data, img);
 	y = 0;
-	while (y++ < calc->drawStart)
+	while (y++ < calc->drawstart)
 		if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
 			mlx_put_pixel(img, x, y, calc->c_color);
-	y = calc->drawStart;
-	while (y++ < calc->drawEnd)
+	y = calc->drawstart;
+	while (y++ < calc->drawend)
 	{
 		calc->tex_y = (int)calc->texpos % TEXHEIGHT;
 		if (calc->tex_y < 0)
@@ -94,7 +94,7 @@ static void	draw_line(t_data *data, mlx_image_t *img, int x)
 			get_texture_color(calc->texture[calc->side],
 				TEXWIDTH * calc->tex_y + calc->tex_x));
 	}
-	y = calc->drawEnd;
+	y = calc->drawend;
 	while (y++ < (int)img->height)
 		if (x >= 0 && x < (int)img->width && y >= 0 && y < (int)img->height)
 			mlx_put_pixel(img, x, y, calc->f_color);
@@ -109,7 +109,7 @@ void	ray_render_game(t_data *data, mlx_image_t *img)
 	calc = data->calc;
 	while (x < SCREENWIDTH)
 	{
-		calc->cameraX = (2 * x / (double)SCREENWIDTH) - 1;
+		calc->camerax = (2 * x / (double)SCREENWIDTH) - 1;
 		prepare_render(calc);
 		ray_calc_side(calc);
 		dda(calc);

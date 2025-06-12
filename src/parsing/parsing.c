@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:46:27 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 15:53:21 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:18:01 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,65 +61,80 @@ unsigned int	parse_rgb_line(const char *line)
 	return ((values[0] << 24) | (values[1] << 16) | (values[2] << 8) | 255);
 }
 
-static bool is_ber_file(const char *argv)
+static bool	is_ber_file(const char *argv)
 {
-	char *extension = ft_strrchr(argv, '/');
+	char	*extension;
+
+	extension = ft_strrchr(argv, '/');
 	if (!extension)
 		extension = (char *)argv;
 	extension = ft_strrchr(extension, '.');
 	if (extension && ft_strncmp(extension, ".cub", ft_strlen(extension)) == 0)
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
-int open_map(t_data *data, char *path)
+int	open_map(t_data *data, char *path)
 {
-	int fd;
+	int	fd;
+
 	if (!is_ber_file(path))
 		return (exit_error(data, "Invalid file extension"), -1);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (exit_error(data, "Cannot open map"), -1);
-	return fd;
+	return (fd);
 }
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-	if (!split) return;
-	for (int i = 0; split[i]; i++)
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+	{
 		free(split[i]);
+		i++;
+	}
 	free(split);
 }
 
-static char **map_open(t_data *data, char *path, char **map_data)
+static char	**map_open(t_data *data, char *path, char **map_data)
 {
-	char *line;
-	char *new_maps;
-	int fd_map;
-	char *maps = ft_strdup("");
-	if (!maps)
-		return NULL;
+	char	*line;
+	char	*new_maps;
+	int		fd_map;
+	char	*maps;
+	char	*temp;
 
+	maps = ft_strdup("");
+	if (!maps)
+		return (NULL);
 	fd_map = open_map(data, path);
 	line = get_next_line(fd_map);
-	if (!line) {
+	if (!line)
+	{
 		close(fd_map);
 		free(maps);
 		exit_error(data, "Map file is empty");
 	}
-
-	while (line) {
-		if (line[0] == '\n') {
-			char *temp = ft_strjoin(line, "_\n");
+	while (line)
+	{
+		if (line[0] == '\n')
+		{
+			temp = ft_strjoin(line, "_\n");
 			free(line);
 			line = temp;
 		}
 		new_maps = ft_strjoin(maps, line);
 		free(maps);
 		free(line);
-		if (!new_maps) {
+		if (!new_maps)
+		{
 			close(fd_map);
-			return NULL;
+			return (NULL);
 		}
 		maps = new_maps;
 		line = get_next_line(fd_map);
@@ -129,28 +144,38 @@ static char **map_open(t_data *data, char *path, char **map_data)
 	free(maps);
 	if (!map_data)
 		return (exit_error(data, "Map error"), NULL);
-	return map_data;
+	return (map_data);
 }
 
-void free_textures(t_data *game)
+void	free_textures(t_data *game)
 {
-	for (int i = 0; i < 4; i++) {
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
 		if (game->calc->texture[i])
 			mlx_delete_texture(game->calc->texture[i]);
+		i++;
 	}
 }
 
-bool check_path(t_data *game)
+bool	check_path(t_data *game)
 {
-	int i = 0, j;
-	while (game->calc->map[i]) {
+	int	i;
+	int	j;
+
+	i = 0;
+	while (game->calc->map[i])
+	{
 		j = 0;
-		while (game->calc->map[i][j]) {
-			if (ft_strchr("10NSEW", game->calc->map[i][j]) == NULL && game->calc->map[i][j] != ' ') {
-				printf("Invalid character in map at %d, %d: '%c'\n", i, j, game->calc->map[i][j]);
+		while (game->calc->map[i][j])
+		{
+			if (ft_strchr("10NSEW", game->calc->map[i][j]) == NULL
+				&& game->calc->map[i][j] != ' ')
 				return (exit_error(game, "Invalid character in map"), false);
-			}
-			if (ft_strchr("NSWE", game->calc->map[i][j])) {
+			if (ft_strchr("NSWE", game->calc->map[i][j]))
+			{
 				if (game->calc->posX != -1)
 					return (exit_error(game, "Invalid map"), false);
 				game->calc->playerDir = game->calc->map[i][j];
@@ -163,20 +188,22 @@ bool check_path(t_data *game)
 	}
 	if (game->calc->posX == -1)
 		return (exit_error(game, "Invalid map"), false);
-	return true;
+	return (true);
 }
 
-void flood_fill(t_data *game, int x, int y, char **map)
+void	flood_fill(t_data *game, int x, int y, char **map)
 {
-	if (y < 0 || x < 0 || !map[y] || x >= (int)ft_strlen(map[y])) {
+	if (y < 0 || x < 0 || !map[y] || x >= (int)ft_strlen(map[y]))
+	{
 		game->map_valid = false;
-		return;
+		return ;
 	}
 	if (map[y][x] == '1' || map[y][x] == '2')
-		return;
-	if (map[y][x] == ' ') {
+		return ;
+	if (map[y][x] == ' ')
+	{
 		game->map_valid = false;
-		return;
+		return ;
 	}
 	map[y][x] = '2';
 	flood_fill(game, x + 1, y, map);
@@ -185,7 +212,7 @@ void flood_fill(t_data *game, int x, int y, char **map)
 	flood_fill(game, x, y + 1, map);
 }
 
-bool parsing(t_data *game, char *path)
+bool	parsing(t_data *game, char *path)
 {
 	char **map_data = NULL;
 	int count = 0, i = -1, nb = 0;

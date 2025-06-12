@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:20:03 by arthur            #+#    #+#             */
-/*   Updated: 2025/06/12 15:55:22 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:56:30 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	free_all(t_data *data)
 	free(data->calc);
 	free(data);
 }
-
 
 static void	ft_error(void)
 {

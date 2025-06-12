@@ -6,36 +6,59 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 17:46:27 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 12:38:20 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:53:21 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <string.h>
 
-unsigned int parse_rgb_line(const char *line) {
-	int i = 0, j = 0;
-	int values[3] = {0, 0, 0};
+static bool	ij_loop(const char *line, int values[3])
+{
+	int	i;
+	int	j;
 
-	while (line[i] && j < 3) {
-		if (line[i] >= '0' && line[i] <= '9') {
+	i = 0;
+	j = 0;
+	while (line[i] && j < 3)
+	{
+		if (line[i] >= '0' && line[i] <= '9')
 			values[j] = values[j] * 10 + (line[i] - '0');
-		} else if (line[i] == ',') {
+		else if (line[i] == ',')
+		{
 			j++;
 			if (j >= 3)
-				return 0;
-		} else if (line[i] != '\n' && line[i] != '\r') {
-			return 0;
+				return (0);
 		}
+		else if (line[i] != '\n' && line[i] != '\r')
+			return (0);
 		i++;
 	}
 	if (j != 2)
-		return 0;
-	for (int k = 0; k < 3; k++) {
-		if (values[k] < 0) values[k] = 0;
-		if (values[k] > 255) values[k] = 255;
+		return (0);
+	return (1);
+}
+
+unsigned int	parse_rgb_line(const char *line)
+{
+	int	i;
+	int	j;
+	int	k;
+	int	values[3];
+
+	i = 0;
+	j = 0;
+	k = 0;
+	ft_memset(values, 0, sizeof(values));
+	ij_loop(line, values);
+	while (k++ < 3)
+	{
+		if (values[k] < 0)
+			values[k] = 0;
+		if (values[k] > 255)
+			values[k] = 255;
 	}
-	return (values[0] << 24) | (values[1] << 16) | (values[2] << 8) | 255;
+	return ((values[0] << 24) | (values[1] << 16) | (values[2] << 8) | 255);
 }
 
 static bool is_ber_file(const char *argv)
@@ -49,14 +72,14 @@ static bool is_ber_file(const char *argv)
 	return false;
 }
 
-int open_map(char *path)
+int open_map(t_data *data, char *path)
 {
 	int fd;
 	if (!is_ber_file(path))
-		return (exit_error("Invalid file extension"), -1);
+		return (exit_error(data, "Invalid file extension"), -1);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (exit_error("Cannot open map"), -1);
+		return (exit_error(data, "Cannot open map"), -1);
 	return fd;
 }
 
@@ -68,7 +91,7 @@ void free_split(char **split)
 	free(split);
 }
 
-static char **map_open(char *path, char **map_data)
+static char **map_open(t_data *data, char *path, char **map_data)
 {
 	char *line;
 	char *new_maps;
@@ -77,12 +100,12 @@ static char **map_open(char *path, char **map_data)
 	if (!maps)
 		return NULL;
 
-	fd_map = open_map(path);
+	fd_map = open_map(data, path);
 	line = get_next_line(fd_map);
 	if (!line) {
 		close(fd_map);
 		free(maps);
-		exit_error("Map file is empty");
+		exit_error(data, "Map file is empty");
 	}
 
 	while (line) {
@@ -105,7 +128,7 @@ static char **map_open(char *path, char **map_data)
 	map_data = ft_split(maps, '\n');
 	free(maps);
 	if (!map_data)
-		return (exit_error("Map error"), NULL);
+		return (exit_error(data, "Map error"), NULL);
 	return map_data;
 }
 
@@ -123,13 +146,13 @@ bool check_path(t_data *game)
 	while (game->calc->map[i]) {
 		j = 0;
 		while (game->calc->map[i][j]) {
-			if (strchr("10NSEW", game->calc->map[i][j]) == NULL && game->calc->map[i][j] != ' ') {
+			if (ft_strchr("10NSEW", game->calc->map[i][j]) == NULL && game->calc->map[i][j] != ' ') {
 				printf("Invalid character in map at %d, %d: '%c'\n", i, j, game->calc->map[i][j]);
-				return (exit_error("Invalid character in map"), false);
+				return (exit_error(game, "Invalid character in map"), false);
 			}
-			if (strchr("NSWE", game->calc->map[i][j])) {
+			if (ft_strchr("NSWE", game->calc->map[i][j])) {
 				if (game->calc->posX != -1)
-					return (exit_error("Invalid map"), false);
+					return (exit_error(game, "Invalid map"), false);
 				game->calc->playerDir = game->calc->map[i][j];
 				game->calc->posY = j + 0.5;
 				game->calc->posX = i + 0.5;
@@ -139,7 +162,7 @@ bool check_path(t_data *game)
 		i++;
 	}
 	if (game->calc->posX == -1)
-		return (exit_error("Invalid map"), false);
+		return (exit_error(game, "Invalid map"), false);
 	return true;
 }
 
@@ -167,13 +190,13 @@ bool parsing(t_data *game, char *path)
 	char **map_data = NULL;
 	int count = 0, i = -1, nb = 0;
 
-	map_data = map_open(path, map_data);
+	map_data = map_open(game, path, map_data);
 	if (!map_data)
 		return false;
 
 	while (map_data[++i]) {
 		if (map_data[i][0] == '\0')
-			return (free_split(map_data), exit_error("Empty line in map"), false);
+			return (free_split(map_data), exit_error(game, "Empty line in map"), false);
 		count += ft_strlen(map_data[i]);
 	}
 
@@ -198,8 +221,7 @@ bool parsing(t_data *game, char *path)
 	if (!game->calc->texture[0] || !game->calc->texture[1] ||
 		!game->calc->texture[2] || !game->calc->texture[3]) {
 		free_split(map_data);
-		free_textures(game);
-		return (exit_error("Error loading textures"), false);
+		return (exit_error(game, "Error loading textures"), false);
 	}
 
 	nb++;
@@ -218,23 +240,23 @@ bool parsing(t_data *game, char *path)
 			}
 		} else {
 			free_split(map_data);
-			return (exit_error("Invalid map data"), false);
+			return (exit_error(game, "Invalid map data"), false);
 		}
 		nb++;
 	}
 
 	game->calc->map = ft_calloc((i - nb + 1), sizeof(char *));
 	if (!game->calc->map)
-		return (free_split(map_data), exit_error("Memory allocation for map"), false);
+		return (free_split(map_data), exit_error(game, "Memory allocation for map"), false);
 
 	i = 0;
 	nb++;
 	while (map_data[nb]) {
 		if (map_data[nb][0] == '\0' || map_data[nb][0] == ' ')
-			return (free_split(map_data), exit_error("Invalid map data"), false);
+			return (free_split(map_data), exit_error(game, "Invalid map data"), false);
 		game->calc->map[i] = ft_strdup(map_data[nb]);
 		if (!game->calc->map[i])
-			return (free_split(map_data), exit_error("Memory allocation for map line"), false);
+			return (free_split(map_data), exit_error(game, "Memory allocation for map line"), false);
 		i++;
 		nb++;
 	}
@@ -243,10 +265,7 @@ bool parsing(t_data *game, char *path)
 	check_path(game);
 	get_player_dir(game);
 	flood_fill(game, (int)game->calc->posY, (int)game->calc->posX, game->calc->map);
-	if (!game->map_valid) {
-		free_split(game->calc->map);
-		free_textures(game);
-		return (exit_error("Invalid map"), false);
-	}
+	if (!game->map_valid)
+		return (exit_error(game, "Invalid map"), false);
 	return true;
 }

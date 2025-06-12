@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 12:40:08 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:05:51 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ typedef struct s_calc_values{
 	double sideDistY;
 	double perpWallDist;
 	double tex_x;
+	double	step;
+	double	texpos;
+	double	sensitivity;
+	double	rotspeed;
 	char **map;
+	int		tex_y;
 	int offsetY;
 	int mouseX;
 	int mouseY;
@@ -70,16 +75,21 @@ typedef struct s_data {
 	bool map_valid;
 } t_data;
 
-bool	init_hook(t_data *data);
-void init_calc_values(t_data *data);
-void ray_render_game(t_calc_values *calc, mlx_image_t* img);
+void init_values(t_data *data);
+void ray_render_game(t_data *data, mlx_image_t* img);
 void ray_calc_side(t_calc_values *calc);
 void ray_calc_walls(t_calc_values *calc);
 void parse_map(char *path, t_data *data);
 bool	parsing(t_data *game, char *path);
 void	get_player_dir(t_data *data);
-void	exit_error(char *message);
+void	exit_error(t_data *data, char *message);
 void    free_split(char **split);
 void 	free_textures(t_data *game);
+uint32_t	get_texture_color(mlx_texture_t *texture, int pos);
+void	_key_hook(void *param);
+bool	move_key(t_data *data);
+bool	rotate_key(t_data *data);
+bool	mouse_rotate(t_data *data, int mouseDeltaX);
+
 
 #endif

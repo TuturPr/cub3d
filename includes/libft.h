@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 11:04:40 by arthur            #+#    #+#             */
-/*   Updated: 2025/05/16 16:56:47 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:00:28 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 # endif
+
+# define RED "\033[0;91m"
+# define GREEN "\033[0;92m"
+# define DEF_COLOR "\033[0;39m"
 
 typedef struct s_list
 {

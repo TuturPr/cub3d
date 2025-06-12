@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:40:06 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/11 16:20:08 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:41:45 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void init_calc_values(t_data *data)
 	calc->posX = -1;
 	calc->posY = -1;
 	calc->mouseY = SCREENHEIGHT / 2;
-	data->calc->f_color = 0xFFFFFFFF;
-  	data->calc->c_color = 0xFF000000;
+	data->map_valid = true;
 }
 
 void ray_calc_side(t_calc_values *calc)

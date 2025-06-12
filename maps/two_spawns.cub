@@ -1,0 +1,12 @@
+NO ./textures/greystone.png
+SO ./textures/mossy.png
+WE ./textures/eagle.png
+EA ./textures/redbrick.png
+
+F 255,255,255
+C 0,0,0
+
+11111
+1N0S1
+10001
+11111

@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:20:03 by arthur            #+#    #+#             */
-/*   Updated: 2025/06/11 16:19:57 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:40:34 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int main(int argc, char **argv)
 	mlx_terminate(data->mlx);
   for (int i = 0; i < 4; i++)
     mlx_delete_texture(data->calc->texture[i]);
+  free_split(data->calc->map);
+  //free(data->calc->map);
   free(data->calc);
   free(data);
 	return (EXIT_SUCCESS);

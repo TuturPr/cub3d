@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:05:24 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/11 16:10:57 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:44:18 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	get_player_dir(t_data *data)
 		west(data);
 	else
 	{
-		perror("Invalid player direction");
+		exit_error("Invalid player direction");
 		exit(EXIT_FAILURE);
 	}
 }

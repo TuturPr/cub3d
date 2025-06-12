@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/11 16:11:11 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:40:08 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_data {
 	mlx_t *mlx;
 	mlx_image_t *img;
 	t_calc_values *calc;
+	bool map_valid;
 } t_data;
 
 bool	init_hook(t_data *data);
@@ -77,5 +78,8 @@ void ray_calc_walls(t_calc_values *calc);
 void parse_map(char *path, t_data *data);
 bool	parsing(t_data *game, char *path);
 void	get_player_dir(t_data *data);
+void	exit_error(char *message);
+void    free_split(char **split);
+void 	free_textures(t_data *game);
 
 #endif

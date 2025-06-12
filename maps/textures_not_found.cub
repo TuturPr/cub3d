@@ -1,0 +1,12 @@
+NO ./bad_path/north.png
+SO ./textures/south.png
+WE ./textures/west.png
+EA ./textures/east.png
+
+F 255,255,255
+C 0,0,0
+
+11111
+1N001
+10001
+11111

@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 14:46:52 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 17:11:35 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:57:22 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	rotate_right(t_data *data)
 	double			oldplanex;
 
 	calc = data->calc;
-	oldxirx = calc->posy;
+	oldxirx = calc->dirx;
 	calc->dirx = calc->dirx * cos(-R_SPEED) - calc->diry * sin(-R_SPEED);
 	calc->diry = oldxirx * sin(-R_SPEED) + calc->diry * cos(-R_SPEED);
 	oldplanex = calc->planex;

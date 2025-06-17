@@ -6,7 +6,7 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 16:55:14 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 17:15:42 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:31:21 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define R_SPEED 0.05
 # define INVALID_F "Warning : Invalid F color, using default."
 # define INVALID_C "Warning : Invalid C color, using default."
+# define MA_E "Memory allocation error for map"
 
 typedef struct s_calc_values
 {
@@ -100,5 +101,6 @@ unsigned int	parse_rgb_line(const char *line);
 char			**map_open(t_data *data, char *path, char **map_data);
 bool			check_empty_lines(char **map_data, t_data *game);
 bool			is_ber_file(const char *argv);
+void			set_color(t_data *game, char type);
 
 #endif

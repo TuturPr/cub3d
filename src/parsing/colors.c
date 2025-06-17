@@ -6,56 +6,50 @@
 /*   By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 16:52:22 by aperceva          #+#    #+#             */
-/*   Updated: 2025/06/12 16:52:42 by aperceva         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:13:38 by aperceva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static bool	ij_loop(const char *line, int values[3])
-{
-	int	i;
-	int	j;
+#include <stdbool.h>
 
-	i = 0;
-	j = 0;
-	while (line[i] && j < 3)
+static int	parse_component(const char **line)
+{
+	int	val;
+	int	digits;
+
+	val = 0;
+	digits = 0;
+	while (**line >= '0' && **line <= '9')
 	{
-		if (line[i] >= '0' && line[i] <= '9')
-			values[j] = values[j] * 10 + (line[i] - '0');
-		else if (line[i] == ',')
-		{
-			j++;
-			if (j >= 3)
-				return (0);
-		}
-		else if (line[i] != '\n' && line[i] != '\r')
-			return (0);
-		i++;
+		val = val * 10 + (**line - '0');
+		(*line)++;
+		digits++;
+		if (digits > 3)
+			return (-1);
 	}
-	if (j != 2)
-		return (0);
-	return (1);
+	if (val < 0 || val > 255)
+		return (-1);
+	return (val);
 }
 
 unsigned int	parse_rgb_line(const char *line)
 {
-	int	i;
-	int	j;
-	int	k;
-	int	values[3];
+	int	r;
+	int	g;
+	int	b;
 
-	i = 0;
-	j = 0;
-	k = 0;
-	ft_memset(values, 0, sizeof(values));
-	ij_loop(line, values);
-	while (k++ < 3)
-	{
-		if (values[k] < 0)
-			values[k] = 0;
-		if (values[k] > 255)
-			values[k] = 255;
-	}
-	return ((values[0] << 24) | (values[1] << 16) | (values[2] << 8) | 255);
+	r = parse_component(&line);
+	if (r == -1 || *line != ',')
+		return (0);
+	line++;
+	g = parse_component(&line);
+	if (g == -1 || *line != ',')
+		return (0);
+	line++;
+	b = parse_component(&line);
+	if (b == -1 || (*line != '\0' && *line != '\n'))
+		return (0);
+	return ((r << 24) | (g << 16) | (b << 8) | 255);
 }

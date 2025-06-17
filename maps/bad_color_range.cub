@@ -3,7 +3,7 @@ SO ./textures/mossy.png
 WE ./textures/eagle.png
 EA ./textures/redbrick.png
 
-F 300,255,255
+F 8000,255,255
 C -10,0,0
 
 11111

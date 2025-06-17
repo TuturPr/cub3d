@@ -6,7 +6,7 @@
 #    By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/04 17:23:35 by arthur            #+#    #+#              #
-#    Updated: 2025/06/12 16:22:08 by aperceva         ###   ########.fr        #
+#    Updated: 2025/06/17 14:16:30 by aperceva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,11 @@ DEF_COLOR = \033[0m
 
 # Sources
 
+include Sources.mk
+
 SRC_DIR = ./src
 
-SRC = $(shell find ./src -iname "*.c")
+SRC = $(SRC_FILES)
 
 OBJS = $(SRC:.c=.o)
 

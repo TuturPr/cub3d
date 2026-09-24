@@ -6,7 +6,7 @@
 #    By: arthur <arthur@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/04 17:23:35 by arthur            #+#    #+#              #
-#    Updated: 2026/09/24 13:48:25 by arthur           ###   ########.fr        #
+#    Updated: 2026/09/24 13:52:10 by arthur           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,7 @@ re: fclean all
 
 norminette:
 	@norminette $(SRC_DIR)| grep -Ev '^Notice|OK!$$'    \
-    && bash -c 'printf "\033[1;31mNorminette KO!\n"'                     \
+    && bash -c 'printf "\033[1;31mNorminette KO!\n"'    \
     || bash -c 'printf "\033[1;32mNorminette OK!\n"'
 
 .PHONY: all clean fclean re

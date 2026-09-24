@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aperceva <aperceva@student.42.fr>          +#+  +:+       +#+         #
+#    By: arthur <arthur@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/04 17:23:35 by arthur            #+#    #+#              #
-#    Updated: 2025/06/17 14:16:30 by aperceva         ###   ########.fr        #
+#    Updated: 2026/09/24 13:48:25 by arthur           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -I $(INCLUDE) -g
 
-GREEN = \033[32m
-RED = \033[31m
+GREEN = \033[1;38;2;0;255;0m
+RED = \033[1;38;2;255;0;0m
 DEF_COLOR = \033[0m
 
 # Sources
@@ -41,35 +41,35 @@ OBJS = $(SRC:.c=.o)
 # Fonctions
 
 all: libmlx $(NAME)
-	@echo "$(GREEN)Compilation successful !$(DEF_COLOR)"
+	@printf "$(GREEN)Compilation successful !$(DEF_COLOR)\n"
 
 libmlx:
 	@cmake $(MLX) -B $(MLX)/build && make -C $(MLX)/build -j4 || \
-		(echo "$(RED)Error in libmlx compilation!$(DEF_COLOR)" && exit 1)
+        (printf "$(RED)Error in libmlx compilation!$(DEF_COLOR)\n" && exit 1)
 
 $(NAME): $(OBJS)
-	@$(MAKE) -C $(LIBFT) -s all || (echo "$(RED)Error in libft compilation!$(DEF_COLOR)" && exit 1)
+	@$(MAKE) -C $(LIBFT) -s all || (printf "$(RED)Error in libft compilation!$(DEF_COLOR)\n" && exit 1)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME) || \
-		(echo "$(RED)Error during linking!$(DEF_COLOR)" && exit 1)
+        (printf "$(RED)Error during linking!$(DEF_COLOR)\n" && exit 1)
 
 %.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ || (echo "$(RED)Error compiling $<!$(DEF_COLOR)" && exit 1)
+	@$(CC) $(CFLAGS) -c $< -o $@ || (printf "$(RED)Error compiling $<!$(DEF_COLOR)\n" && exit 1)
 
 clean:
 	@rm -f $(OBJS)
-	@echo "$(GREEN)Clean successful !$(DEF_COLOR)"
+	@printf "$(GREEN)Clean successful !$(DEF_COLOR)\n"
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -rf $(MLX)/build
-	@$(MAKE) -C $(LIBFT) -s fclean || (echo "$(RED)Error in libft cleaning!$(DEF_COLOR)" && exit 1)
-	@echo "$(GREEN)Full clean successful !$(DEF_COLOR)"
+	@$(MAKE) -C $(LIBFT) -s fclean || (printf "$(RED)Error in libft cleaning!$(DEF_COLOR)\n" && exit 1)
+	@printf "$(GREEN)Full clean successful !$(DEF_COLOR)\n"
 
 re: fclean all
 
 norminette:
-	@norminette $(SRC_DIR)| grep -Ev '^Notice|OK!$$'	\
-	&& bash -c 'echo -e "\033[1;31mNorminette KO!"'						\
-	|| bash -c 'echo -e "\033[1;32mNorminette OK!"'
+	@norminette $(SRC_DIR)| grep -Ev '^Notice|OK!$$'    \
+    && bash -c 'printf "\033[1;31mNorminette KO!\n"'                     \
+    || bash -c 'printf "\033[1;32mNorminette OK!\n"'
 
 .PHONY: all clean fclean re

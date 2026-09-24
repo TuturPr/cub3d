@@ -18,7 +18,7 @@ void	init_values(t_data *data)
 
 	mlx_set_window_limit(data->mlx, SCREENWIDTH, \
 		SCREENHEIGHT, SCREENWIDTH, SCREENHEIGHT);
-	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_HIDDEN);
+	mlx_set_cursor_mode(data->mlx, MLX_MOUSE_DISABLED);
 	mlx_set_mouse_pos(data->mlx, SCREENWIDTH / 2, SCREENHEIGHT / 2);
 	calc = data->calc;
 	calc->posx = -1;
